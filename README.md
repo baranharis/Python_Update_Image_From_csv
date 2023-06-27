@@ -8,6 +8,9 @@ Sur la base des informations de ce fichier, le script va créer automatiquement 
 - Ajouter les informations suivantes:
 - Membres --> au centre et en bas à droite
   Date de naissance --> au centre
+  
   Grade cible --> au centre
+  
   Date de l'examen --> en haut à droit
+  
 -  Enregistrer le template de l'image sous le nom "Membres_ + nom de l'image template
