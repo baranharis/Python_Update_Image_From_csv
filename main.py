@@ -51,3 +51,4 @@ for index, row in data.iterrows():
 
 
 print('Images modifiées avec succès.')
+print('Fin du script')
