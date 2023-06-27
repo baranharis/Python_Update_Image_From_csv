@@ -7,6 +7,7 @@ Ce fichier contient plusieurs informations pour chaque ligne un participant avec
 Sur la base des informations de ce fichier, le script va créer automatiquement sur base d'un template d'image
 - Ajouter les informations suivantes:
 - Membres --> au centre et en bas à droite
+  
   Date de naissance --> au centre
   
   Grade cible --> au centre
