@@ -1,5 +1,4 @@
 # Python_Update_Image_From_csv
- baranharis/Python_Update_Image_From_csv
 
 Ce script Python va traiter un fichier CSV nommé "Passage de grade 2023.csv". 
 Ce fichier contient plusieurs informations pour chaque ligne un participant avec les colonnes suivantes:
