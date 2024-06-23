@@ -1,54 +1,69 @@
 # Ce script Python va traiter un fichier CSV nommé "Passage de grade 2023.csv". 
 # Ce fichier contient plusieurs informations pour chaque ligne un participant avec les colonnes suivantes:
-#     - Titre, Membres (à formater), Date de l'examen, Date de naissance, Grade actuel, Grade cible, URL Image, Paiement, Résultat, ...
+#     - Titre, Membre (à formater), Date de l'examen, Date de naissance, Grade actuel, Grade cible, URL Image, Paiement, Résultat, ...
 
 # Sur la base des informations de ce fichier, le script va créer automatiquement sur base d'un template d'image
 #     - Ajouter les informations suivantes:
-#         - Membres --> au centre et en bas à droite
+#         - Membre --> au centre et en bas à droite
 #         - Date de naissance --> au centre
 #         - Grade cible --> au centre
 #         - Date de l'examen --> en haut à droit
-#     - Enregistrer le template de l'image sous le nom "Membres_ + nom de l'image template
+#     - Enregistrer le template de l'image sous le nom "Membre_ + nom de l'image template
 
 from PIL import Image, ImageDraw, ImageFont
 import pandas as pd
 
-# Lire les données du CSV
-data = pd.read_csv('csv files/Passage de grade 2023.csv')
+# Lire le fichier CSV brut pour vérifier son contenu
+# with open('csv files/Passage de grade 2024.csv', 'r') as file:
+#     content = file.read()
+#     print("Contenu brut du fichier CSV :\n", content)
 
-# Nettoyer les données dans la colonne 'Membres'
-data['Membres'] = data['Membres'].str.split(' \\(').str[0]
-# print(data)
-print('Début du script')
+# Lire les données du CSV avec le bon séparateur et en spécifiant la ligne d'en-tête
+data = pd.read_csv('csv files/Passage de grade 2024.csv', sep=';', header=0)
 
-# Parcourir chaque ligne du CSV
-for index, row in data.iterrows():
-    # Ouvrir l'image du template
-    img = Image.open(row['URL IMAGE'])
+# Afficher les noms des colonnes pour vérifier
+# print("Colonnes disponibles dans le CSV :", data.columns)
 
-    # Initialiser un objet ImageDraw pour dessiner sur l'image
-    draw = ImageDraw.Draw(img)
+# Afficher les premières lignes du CSV pour un aperçu
+# print("Aperçu des données du CSV :", data.head())
 
-    # Définir la police (vous devrez ajuster le chemin et la taille selon vos besoins)
-    font = ImageFont.truetype("font/arial_mt_black/ARIBL0.ttf", 17)
-    font_small = ImageFont.truetype("font/arial_mt_black/ARIBL0.ttf", 12)
+# Vous pouvez également utiliser `data.info()` pour plus de détails
+# print(data.info())
 
-    # Ajouter le texte à l'image 
-    draw.text((1000, 180), f"{row['Date examen']}", font=font, fill='black')
-    draw.text((580, 420), f"{row['Membres']}", font=font, fill='black')
-    draw.text((580, 465), f"{row['Date de naissance']}", font=font, fill='black')
-    draw.text((580, 510), f"{row['Grade cible']}", font=font, fill='black')
-    draw.text((970, 720), f"{row['Membres']}", font=font, fill='black')
-    font = ImageFont.truetype("font/arialn/Arialn.ttf", 14)
-    draw.text((950, 745), f"Signature du candidat", font=font_small, fill='black')
+# Vérifier si la colonne 'Membre' existe
+if 'Membre' in data.columns:
+    # Nettoyer les données dans la colonne 'Membre'
+    data['Membre'] = data['Membre'].str.split(' \\(').str[0]
+    print('Début du script')
 
-    # Extrait le nom du fichier de l'URL de l'image
-    filename = row['URL IMAGE'].split('/')[-1]
+    # Parcourir chaque ligne du CSV
+    for index, row in data.iterrows():
+        # Ouvrir l'image du template
+        img = Image.open(row['URL Image'])
 
-    # Enregistrez l'image avec le nouveau nom
-    img.save(f"{row['Membres']}_{filename}")
+        # Initialiser un objet ImageDraw pour dessiner sur l'image
+        draw = ImageDraw.Draw(img)
 
+        # Définir la police (vous devrez ajuster le chemin et la taille selon vos besoins)
+        font = ImageFont.truetype("font/arial_mt_black/ARIBL0.ttf", 77)
+        font_small = ImageFont.truetype("font/arial_mt_black/ARIBL0.ttf", 72)
 
+        # Ajouter le texte à l'image 
+        draw.text((4000, 700), f"{row['Date examen']}", font=font, fill='black')
+        draw.text((2300, 1680), f"{row['Membre']}", font=font, fill='black')
+        draw.text((2300, 1860), f"{row['Date de naissance']}", font=font, fill='black')
+        draw.text((2300, 2030), f"{row['Grade cible']}", font=font, fill='black')
+        # draw.text((970, 720), f"{row['Membre']}", font=font, fill='black')
+        font = ImageFont.truetype("font/arialn/Arialn.ttf", 14)
+        # draw.text((950, 745), f"Signature du candidat", font=font_small, fill='black')
 
-print('Images modifiées avec succès.')
+        # Extrait le nom du fichier de l'URL de l'image
+        filename = row['URL Image'].split('/')[-1]
+
+        # Enregistrez l'image avec le nouveau nom
+        img.save(f"updated images/{row['Membre']}_{filename}")
+
+    print('Images modifiées avec succès.')
+else:
+    print("Erreur : La colonne 'Membre' n'existe pas dans le CSV.")
 print('Fin du script')
